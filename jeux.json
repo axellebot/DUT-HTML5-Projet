@@ -1,0 +1,16 @@
+{
+  "games": [
+    {
+      "name": "2018",
+      "description": "Jeux cool"
+    },
+    {
+      "name": "Sudoku",
+      "description": "Jeux Tout aussi cool"
+    },
+    {
+      "name": "Casse Brique",
+      "description": "Jeux cool"
+    }
+  ]
+}
