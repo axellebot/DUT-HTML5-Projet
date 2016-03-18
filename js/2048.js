@@ -50,7 +50,7 @@ function Grille() {
             }
         }
         return tab;
-    }
+    };
     this.recup_colonne = function (i) {
         var tab = new Array();
         for (var i = 0; i < this.taille; i++) {
@@ -64,7 +64,7 @@ function Grille() {
             }
         }
         return tab;
-    }
+    };
 
     this.equalsGrille = function (g1, g2) {
         if (g1.taille == g2.taille) {
@@ -79,8 +79,18 @@ function Grille() {
             return false;
         }
         return true;
-    }
-    
+    };
+
+    this.grilleGagne = function () {
+        for (var i = 0; i < this.taille; i++) {
+            for (var j = 0; j < this.taille; j++) {
+                if (this.grille[i][j].valeur == 2048) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    };
 }
 
 
