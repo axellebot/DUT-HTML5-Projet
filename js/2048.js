@@ -2,9 +2,35 @@ $(document).ready(function () {
     console.log("It's working");
 });
 
-$(document).on("keydown", function () {
+$(document).keydown(function (e) {
+    switch (e.which) {
+        case 37: // left
+            console.log("left");
+            grilleTest.pousser_gauche();
+            break;
 
+        case 38: // up
+            console.log("up");
+            grilleTest.pousser_haut();
+            break;
+
+        case 39: // right
+            console.log("right");
+            grilleTest.pousser_droite();
+            break;
+
+        case 40: // down
+            console.log("down");
+            grilleTest.pousser_bas();
+            break;
+
+        default:
+            return; // exit this handler for other keys
+    }
+    update();
+    e.preventDefault(); // prevent the default action (scroll / move caret)
 });
+
 $(document).on("touchmove", function (e) {
     var currentY = e.originalEvent.touches ?
         e.originalEvent.touches[0].pageY : e.pageY;
@@ -15,11 +41,11 @@ $(document).on("touchmove", function (e) {
     }
 });
 
-function Case(posX, posY, color, n) {
+function Case(valeur, posX, posY) {
+
+    this.valeur = valeur || 0;
     this.x = posX;
     this.y = posY;
-    this.color = color || "white";
-    this.valeur = n || null;
 }
 
 function Grille() {
@@ -28,14 +54,35 @@ function Grille() {
 
     for (var i = 0; i < this.taille; i++) {
         this.grille[i] = new Array();
-    }
-    for (var i = 0; i < this.taille; i++) {
         for (var j = 0; j < this.taille; j++) {
             console.log("i -> " + i);
             console.log("j -> " + j);
-            this.grille[i][j] = new Case(j, i);
+            this.grille[i][j] = new Case(0, j, i);
         }
     }
+
+    this.addRandom = function () {
+        var listeCaseVide = new Array();
+        for (var i = 0; i < this.taille; i++) {
+            for (var j = 0; j < this.taille; j++) {
+                if (this.grille[i][j].valeur == 0) {
+                    listeCaseVide.push(this.grille[i][j]);
+                }
+            }
+        }
+        if (listeCaseVide.length > 0) {
+            var indice = Math.floor(Math.random() * (listeCaseVide.length - 1));
+
+            var rand = Math.random();
+            if (rand <= 0.5) {
+                listeCaseVide[indice].valeur = 2;
+            } else if (rand > 0.5) {
+                listeCaseVide[indice].valeur = 4;
+            }
+        }
+        this.toString();
+
+    };
 
     this.recup_colonne = function (j) {
         var tab = new Array();
@@ -44,22 +91,22 @@ function Grille() {
         }
         var k = 0;
         for (var i = 0; i < this.taille; i++) {
-            if (grille[i][j].valeur > 0) {
-                tab[k] = grille[i][j].valeur;
+            if (this.grille[i][j].valeur > 0) {
+                tab[k] = this.grille[i][j].valeur;
                 k++;
             }
         }
         return tab;
     };
-    this.recup_colonne = function (i) {
+    this.recup_ligne = function (i) {
         var tab = new Array();
-        for (var i = 0; i < this.taille; i++) {
-            tab[i] = 0;
+        for (var j = 0; j < this.taille; j++) {
+            tab[j] = 0;
         }
         var k = 0;
         for (var j = 0; j < this.taille; j++) {
-            if (grille[i][j].valeur > 0) {
-                tab[k] = grille[i][j].valeur;
+            if (this.grille[i][j].valeur > 0) {
+                tab[k] = this.grille[i][j].valeur;
                 k++;
             }
         }
@@ -118,7 +165,7 @@ function Grille() {
     this.pousser_gauche = function () {
         //appliquer la fusion sur la grille
         for (var i = 0; i < this.taille; i++) { // pour chaque ligne
-            var tab = this.recup_ligne = i; //recupérer la ligne condensé
+            var tab = this.recup_ligne(i); //recupérer la ligne condensé
 
             var j = 0, k = 0;
 
@@ -140,7 +187,7 @@ function Grille() {
     };
 
     this.pousser_droite = function () {
-        for (var i = 0; i < taille; i++) { // pour chaque ligne
+        for (var i = 0; i < this.taille; i++) { // pour chaque ligne
             var tab = this.recup_ligne(i); //recupérer la ligne condensé
 
             var j = this.taille - 1, k = this.taille - 1;
@@ -193,8 +240,8 @@ function Grille() {
 
     this.toString = function () {
         var _tmp = "";
-        for (var j = 0; j < this.taille; j++) {
-            for (var i = 0; i < this.taille; i++) {
+        for (var i = 0; i < this.taille; i++) {
+            for (var j = 0; j < this.taille; j++) {
                 _tmp += this.grille[i][j].valeur;
             }
             _tmp += "/n";
@@ -203,5 +250,8 @@ function Grille() {
     }
 }
 
+grilleTest = new Grille();
 
-grille = new Grille();
+function update() {
+
+}
