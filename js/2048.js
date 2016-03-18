@@ -65,6 +65,22 @@ function Grille() {
         }
         return tab;
     }
+
+    this.equalsGrille = function (g1, g2) {
+        if (g1.taille == g2.taille) {
+            for (var i = 0; i < g1.taille; i++) {
+                for (var j = 0; j < g1.taille; j++) {
+                    if (g1.grille[i][j].valeur != g2.grille[i][j].valeur) {
+                        return false;
+                    }
+                }
+            }
+        } else {
+            return false;
+        }
+        return true;
+    }
+    
 }
 
 
