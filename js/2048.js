@@ -224,6 +224,38 @@ $.extend(Grille.prototype, {
         return true;
     },
     /**
+     * Si le joueur ne peut plus bouger
+     * @returns {boolean}
+     */
+    grillePerdu: function () {
+        var k = 0;
+
+        var g_tmp = new Grille(this);
+
+        var grilleRempli = false;
+        for (var i = 0; i < this.taille; i++) {
+            for (var j = 0; j < this.taille; j++) {
+                if (this.grille[i][j].valeur != 0) {
+                    k++;
+                }
+            }
+        }
+        if (k == this.taille * this.taille) {
+            grilleRempli = true;
+        }
+        if (grilleRempli) {
+            g_tmp.pousser_bas();
+            g_tmp.pousser_haut();
+            g_tmp.pousser_gauche();
+            g_tmp.pousser_droite();
+            if (Grille.equalsGrille(this, g_tmp) == true) {
+                return true;
+            }
+        }
+        return false;
+    },
+
+    /**
      * Vérifier si le nombre 2048 est présent dans la grille
      * @returns {boolean}
      */
