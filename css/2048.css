@@ -12,21 +12,18 @@ div {
 }
 
 .grid-container2018 {
-    position: absolute;
+    position: relative;
     z-index: 1;
-}
-
-.grid-row {
-    margin-bottom: 15px;
 }
 
 .grid-cell {
     width: 106.25px;
     height: 106.25px;
-    margin-right: 15px;
+    margin:8px;
     float: left;
     border-radius: 3px;
     background: rgba(238, 228, 218, 0.35);
     font-family: Calibri;
     font-size: 50px;
+    text-align: center;
 }
