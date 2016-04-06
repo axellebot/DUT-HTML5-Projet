@@ -41,21 +41,30 @@ $jfo = json_decode($json_file);
     <div class="container">
         <div class="row">
             <?php
-            foreach ($jfo->games as $game) {
+            
                 ?>
                 <div class="col s12 m6 l4">
                     <div class="card blue">
                         <div class="card-content white-text ">
-                            <span class="card-title"><?php echo $game->name ?></span>
-                            <p><?php echo $game->description ?></p>
+                            <span class="card-title">Titre du jeu : Casse-Brique </span>
+                            <p>Description : C'est un jeu de Casse-Brique classique, il faut éliminer toutes les briques sans faire tomber la balle dans le vide. </p>
                         </div>
                         <div class="card-action">
                             <a class="btn" href="#">Play</a>
+							<a href="CasseBrique.html" target="_blank"> <input type="button" value="Jouer au Casse-Brique"> </a>
+							<video id="vidCB" controls
+							<source src="VideoCasseBrique.mp4" type "video/mpeg"
+							height=210>
+							
+							
+  
+							Votre navigateur ne supporte pas la balise video
+							</video>
                         </div>
                     </div>
                 </div>
                 <?php
-            }
+            
             ?>
         </div>
     </div>
