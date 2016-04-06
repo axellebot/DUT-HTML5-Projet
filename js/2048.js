@@ -1,5 +1,9 @@
 $(document).ready(function () {
     console.log("It's working");
+    grilleTest = new Grille();
+    grilleComparaison = new Grille();
+    grilleTest.addRandom();
+    update();
 });
 
 /**
@@ -230,8 +234,6 @@ $.extend(Grille.prototype, {
     grillePerdu: function () {
         var k = 0;
 
-        var g_tmp = new Grille(this);
-
         var grilleRempli = false;
         for (var i = 0; i < this.taille; i++) {
             for (var j = 0; j < this.taille; j++) {
@@ -244,11 +246,11 @@ $.extend(Grille.prototype, {
             grilleRempli = true;
         }
         if (grilleRempli) {
-            g_tmp.pousser_bas();
-            g_tmp.pousser_haut();
-            g_tmp.pousser_gauche();
-            g_tmp.pousser_droite();
-            if (Grille.equalsGrille(this, g_tmp) == true) {
+            grilleComparaison.pousser_bas();
+            grilleComparaison.pousser_haut();
+            grilleComparaison.pousser_gauche();
+            grilleComparaison.pousser_droite();
+            if (grilleComparaison.equalsGrille(grilleComparaison, grilleTest) == true) {
                 return true;
             }
         }
@@ -286,14 +288,16 @@ $.extend(Grille.prototype, {
 });
 
 
-grilleTest = new Grille();
-grilleTest.addRandom();
-update();
-
 /**
  * Quand l'utilisateur appuie sur les touches
  */
 $(document).keydown(function (e) {
+
+    for (var i = 0; i < grilleComparaison.taille; i++) {
+        for (var j = 0; j < grilleComparaison.taille; j++) {
+            grilleComparaison.grille[i][j].valeur = grilleTest.grille[i][j].valeur;
+        }
+    }
     switch (e.which) {
         case 37: // left
             console.log("left");
@@ -326,11 +330,30 @@ $(document).keydown(function (e) {
  * Mettre à jour l'affichage de la grille
  */
 function update() {
+
+
+
+    if (!grilleTest.equalsGrille(grilleComparaison, grilleTest)) {
+        grilleTest.addRandom();
+        console.log("PAs pareil");
+    }else {
+        console.log('Pareil');
+    }
+
     for (var i = 0; i < grilleTest.taille; i++) {
         for (var j = 0; j < grilleTest.taille; j++) {
-            $e = document.getElementById("cell_" + (1 + i) + "-" + (1 + j));
-            $e.innerHTML = grilleTest.grille[i][j].valeur;
+            document.getElementById("cell_" + (i + 1) + "-" + (j + 1)).innerText = grilleTest.grille[i][j].valeur;
         }
     }
-    grilleTest.addRandom();
+
+
+    if (grilleTest.grilleGagne()) {
+        console.log("Win");
+        alert("You Won");
+    }
+
+    if(grilleTest.grillePerdu()){
+        console.log("lose");
+        alert("You Lose");
+    }
 }
